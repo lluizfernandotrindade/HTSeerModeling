@@ -63,9 +63,7 @@ class M5:
 
         ht = HierarchyTree.from_nodes(nodes=hierarchy, df=self.train_set)
         
-    
-
-
+        
     def save_as_json(self,hierarchy):
         
         with open('data/hierarchy.json','w') as j:
