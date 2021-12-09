@@ -139,16 +139,16 @@ def mean_absolute_scaled_error(y_true, y_pred, y_train,
         nodes is returned.
     """
     
-    in_sample_naive_forecast_errors = numpy.abs(
+    in_sample_naive_forecast_errors = np.abs(
         y_train.diff(m)[m:]
         )
     
-    in_sample_mae = in_sample_naive_forecast_errors.apply(numpy.average)
+    in_sample_mae = in_sample_naive_forecast_errors.apply(np.average)
 
-    e_t = numpy.abs(y_true - y_pred)
+    e_t = np.abs(y_true - y_pred)
     q_t = (e_t / in_sample_mae)
     
-    output_errors = q_t.apply(numpy.average, axis=0, weights=sample_weight)
+    output_errors = q_t.apply(np.average, axis=0, weights=sample_weight)
 
     if isinstance(multioutput, str):
         if multioutput=='raw_values':
@@ -156,6 +156,6 @@ def mean_absolute_scaled_error(y_true, y_pred, y_train,
         elif multioutput=='uniform_average':
             multioutput = None
 
-    output_errors_avg = numpy.average(output_errors, weights=multioutput)
+    output_errors_avg = np.average(output_errors, weights=multioutput)
 
     return output_errors_avg
