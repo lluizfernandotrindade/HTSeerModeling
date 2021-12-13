@@ -155,7 +155,7 @@ def errorToJson(dict_data, revisionMethodName):
                  "values":[]
                 }
     
-    errorMAPE = {"name": "RMSE",
+    errorMAPE = {"name": "MAPE",
                  "values":[]
                 }
     errorRMSE["values"] = { key : list() for key in [revisionMethodName]} if isinstance(revisionMethodName, str) else { key : list() for key in revisionMethodName}
@@ -193,12 +193,11 @@ def jsonResult(self, modelsList, revisionMethodList, prediction, hist, error, _l
             ht_tree['values'][modelKey] = ht_tree.fromkeys([revisionMethodList]) if isinstance(revisionMethodList, str) else ht_tree.fromkeys(revisionMethodList)
             for revisionKey in ht_tree['values'][modelKey].keys():
                 ht_tree['values'][modelKey][revisionKey] = ht_tree.fromkeys(['prediction', 'error'])
-                ht_tree['values'][modelKey][revisionKey]['prediction'] = list(prediction[self.key])
-                ht_tree['values'][modelKey][revisionKey]['error'] = ht_tree.fromkeys(list(error.keys()))
+                ht_tree['values'][modelKey][revisionKey]['prediction'] = list(prediction[modelKey][revisionKey][self.key])
+                ht_tree['values'][modelKey][revisionKey]['error'] = ht_tree.fromkeys(error[modelKey][revisionKey].keys())
                 for errorKey in ht_tree['values'][modelKey][revisionKey]['error'].keys():
-                    ht_tree['values'][modelKey][revisionKey]['error'][errorKey] = error[errorKey][self.key]
-        
-    
+                    ht_tree['values'][modelKey][revisionKey]['error'][errorKey] = error[modelKey][revisionKey][errorKey][self.key]
+
     child_count = len(self.children)
     
     for i, child in enumerate(self.children):
@@ -220,17 +219,13 @@ def jsonResultFront(self, modelsList, revisionMethodList, prediction, hist, _las
     ht_tree['values'].append(['historico', list(hist[self.key])])
     
     if isinstance(modelsList, str):
-        x = [modelsList]
         for revisionKey in prediction[modelsList].keys():
-            x.append(list(prediction[modelsList][revisionKey][self.key]))
-        ht_tree['values'].append(x) 
+            ht_tree['values'].append([modelsList + '-' + revisionKey,list(prediction[modelsList][revisionKey][self.key])]) 
 
     else:
         for modelKey in modelsList:
-            x = [modelKey]
-            for revisionKey in ht_tree['values'][modelKey].keys():
-                x.append(list(prediction[modelKey][revisionKey][self.key]))
-            ht_tree['values'].append(x)        
+            for revisionKey in prediction[modelKey].keys():
+                ht_tree['values'].append([modelKey + '-' + revisionKey,list(prediction[modelKey][revisionKey][self.key])])        
     
     child_count = len(self.children)
     
