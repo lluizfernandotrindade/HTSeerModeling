@@ -88,9 +88,25 @@ Function to plot the result. The properties required are:
 - predictions = the data frame predicted by the model.
 - dataFrame = the data frame used as ground Through.
 
+### `evaluationMetrics.py`
+
+```python
+  def rmse(y_true, y_pred):
+```
+```python
+  def mape(y_true, y_pred):
+```
+```python
+  def mase(y_true, y_pred, y_train):
+```
+```python
+  def rel_error(y_true, y_pred):
+```
+
 ## Modeling Strategy
 
 The model Strategy can be found with more detail in this link [scikit-hts examples](https://github.com/carlomazzaferro/scikit-hts-examples/blob/master/notebooks/M5.ipynb).
+
 
 ### HTSeer Modeling
 
@@ -98,7 +114,7 @@ Showcase for more info how the algorithms works can be found in the jupyter note
 
 ## Reference
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+All the references can be found in HTSeer.pdf.
 
 ### `Future Works`
 

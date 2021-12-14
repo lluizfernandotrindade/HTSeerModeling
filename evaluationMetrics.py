@@ -26,3 +26,12 @@ def mase(y_true, y_pred, y_train):
     from metrics import mean_absolute_scaled_error
 
     return mean_absolute_scaled_error(y_true, y_pred, y_train)
+    
+def rel_error(y_true, y_pred):
+    from numpy.linalg import norm
+
+    results = {}
+    for column in y_true.columns:
+        results[column] = 100*(norm(y_true[column]-y_pred[column])/norm(y_true[column]))
+
+    return pd.Series(results)
